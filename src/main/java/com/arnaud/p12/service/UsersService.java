@@ -15,4 +15,5 @@ public interface UsersService {
     User addRoleToUser(String username, String rolename);
     List<User> findall();
 
+
 }

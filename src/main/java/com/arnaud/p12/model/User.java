@@ -1,24 +1,24 @@
 package com.arnaud.p12.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.*;
+import org.springframework.lang.Nullable;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.List;
 
-@Getter
-@Setter
+
 @AllArgsConstructor
 @NoArgsConstructor
+@Data
 @Entity(name = "users")
-public class User {
+public class User implements Serializable {
 
 
     @Id
     @Column(name = "id",unique = true)
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     @Column(name = "last_name")
     private String lastName;
@@ -32,11 +32,17 @@ public class User {
     private String password;
     @Column(name = "email")
     private String email;
-    @Column(name = "username")
+    @Column(name = "username",unique = true)
     private String username;
-    @ManyToMany(cascade=CascadeType.MERGE, fetch = FetchType.EAGER)
-    @JoinTable(name="user_role",joinColumns = @JoinColumn(name="user_id") ,
-            inverseJoinColumns = @JoinColumn(name="role_id"))
-    private List<Role> roles;
     private boolean enabled;
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name= "user_role",joinColumns = @JoinColumn(name= "user_id", referencedColumnName = "id") ,
+            inverseJoinColumns = @JoinColumn(name= "role_id", referencedColumnName = "role_id"))
+    @Nullable
+    private List<Role> roles = new java.util.ArrayList<>();
+
+    @ManyToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+    @JoinTable(name = "permission_role",joinColumns = @JoinColumn(name = "user_id"),inverseJoinColumns = @JoinColumn(name = "p_permission"))
+    private List<Permission> permissions;
 }

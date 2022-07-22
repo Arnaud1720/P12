@@ -17,13 +17,8 @@ public class AssociationController {
         this.associationService = associationService;
     }
 
-    @PostMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
 
-    public Association saveAssociation(@PathVariable("id") long id, @RequestBody Association association) {
-        return associationService.save(association, id);
-    }
-
-    @GetMapping(value = "", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/all", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<Association> findAll() {
         return associationService.findAll();
     }
@@ -32,5 +27,11 @@ public class AssociationController {
     public void deleteById(@PathVariable(name = "id") long id) {
         associationService.deleteById(id);
     }
+
+    @PostMapping(value = "/save/{id}",produces = MediaType.APPLICATION_JSON_VALUE,consumes = MediaType.APPLICATION_JSON_VALUE)
+    public Association save(@RequestBody Association association,@PathVariable(name = "id") long id){
+        return associationService.save(association,id);
+    }
+
 
 }

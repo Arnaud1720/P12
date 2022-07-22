@@ -6,7 +6,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
-import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -15,13 +14,14 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
-import static com.arnaud.asso.p12.security.SecParams.allAccess;
-import static com.arnaud.asso.p12.security.SecParams.urlAdmin;
+import static com.arnaud.p12.security.SecParams.allAccess;
+import static com.arnaud.p12.security.SecParams.urlAdmin;
 
 @Configuration
 @EnableWebSecurity
-@EnableGlobalMethodSecurity(prePostEnabled = true)
+@CrossOrigin("*")
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter  {
 
     private final UserDetailsService userDetailsService;
@@ -45,13 +45,12 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter  {
         http.sessionManagement().
                 sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         http.authorizeRequests().antMatchers("/login").permitAll();
-        // afficher la liste de tout les utilisateur
-        http.authorizeRequests().antMatchers(urlAdmin).hasAuthority("ADMIN");
+        // afficher la liste de toute les associations
+
         //rechercher un association par son id
-        http.authorizeRequests().antMatchers(HttpMethod.GET,urlAdmin).hasAnyAuthority("ADMIN","USER","ADHERENT");
-        //supprimer une association
-        http.authorizeRequests().antMatchers(HttpMethod.DELETE,"/user/**").hasAuthority("ADMIN");
-        http.authorizeRequests().antMatchers(HttpMethod.POST,allAccess).hasAnyAuthority("","ADMIN","USER","ADHERENT");
+
+        //supprimer un utilisateur
+
 
         http.authorizeRequests().anyRequest().authenticated();
 

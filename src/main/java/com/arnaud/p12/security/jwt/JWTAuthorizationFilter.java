@@ -1,25 +1,25 @@
 package com.arnaud.p12.security.jwt;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import javax.servlet.FilterChain;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import com.arnaud.asso.p12.security.SecParams;
+import com.arnaud.p12.security.SecParams;
+import com.auth0.jwt.JWT;
+import com.auth0.jwt.JWTVerifier;
+import com.auth0.jwt.algorithms.Algorithm;
+import com.auth0.jwt.interfaces.DecodedJWT;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
-import com.auth0.jwt.JWT;
-import com.auth0.jwt.JWTVerifier;
-import com.auth0.jwt.algorithms.Algorithm;
-import com.auth0.jwt.interfaces.DecodedJWT;
+
+import javax.servlet.FilterChain;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 @Component
 public class JWTAuthorizationFilter extends OncePerRequestFilter {
@@ -40,17 +40,16 @@ public class JWTAuthorizationFilter extends OncePerRequestFilter {
 //        /*
 //            Eviter l'erreur cross Origin côté frontEnd
 //         */
-//        response.addHeader("Access-Control-Allow-Origin", "*");
-//        response.addHeader("Access-Control-Allow-Methods", "GET,HEAD,OPTIONS,POST,PUT,DELETE");
-//        response.addHeader("Access-Control-Allow-Headers", "Content-Type, Access-Control-Allow-Headers, Origin, Accept, X - Requested - With,  Content - Type, Access - Control - Request - Method, Access - Control - Request - Headers, Authorization");
-////           response.addHeader("Access-Control-Allow-Headers", "Content-Type, Authorization, Access-Control-Allow-Headers" );
-//        response.addHeader("Access-Control-Expose-Headers", "Content-Type, Authorization, Access-Control-Allow-Headers");
-//
-//        response.addHeader("Access-Control-Expose-Headers", "Authorization, Access-ControlAllow-Origin,Access-Control-Allow-Credentials ");
-//        if (request.getMethod().equals("OPTIONS")) {
-//            response.setStatus(HttpServletResponse.SC_OK);
-//            return;
-//        }
+        /*
+        response.addHeader("Access-Control-Allow-Origin", "*");
+        response.addHeader("Access-Control-Allow-Methods", "GET,HEAD,OPTIONS,POST,PUT,DELETE");
+        response.addHeader("Access-Control-Allow-Headers", "Access-Control-Allow-Headers, Origin, Accept, X - Requested - With, Content - Type, Access - Control - Request - Method, Access - Control - Request - Headers, Authorization");
+        response.addHeader("Access-Control-Expose-Headers", "Authorization, Access-ControlAllow-Origin,Access-Control-Allow-Credentials ");
+
+                if (request.getMethod().equals("OPTIONS")) {
+            response.setStatus(HttpServletResponse.SC_OK);
+            return;
+        }
         /*
 
          */

@@ -10,6 +10,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
 import javax.servlet.FilterChain;
 import javax.servlet.http.HttpServletRequest;
@@ -19,8 +20,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import static com.arnaud.asso.p12.security.SecParams.EXP_TIME;
+import static com.arnaud.p12.security.SecParams.EXP_TIME;
 
+@CrossOrigin("http://localhost:4200")
 public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
     @Autowired
     private AuthenticationManager authenticationManager;

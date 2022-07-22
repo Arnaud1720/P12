@@ -22,16 +22,16 @@ import java.util.List;
 @Transactional
 public class UsersServiceImpl implements UsersService {
 
-    @Autowired
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
     final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final RoleRepository roleRepository;
 
 
     public UsersServiceImpl(
-            BCryptPasswordEncoder bCryptPasswordEncoder, RoleRepository roleRepository) {
+            BCryptPasswordEncoder bCryptPasswordEncoder, RoleRepository roleRepository, UserRepository userRepository) {
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
         this.roleRepository = roleRepository;
+        this.userRepository = userRepository;
     }
 
     @Override
@@ -39,9 +39,8 @@ public class UsersServiceImpl implements UsersService {
 
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         // par défaut quand un utilisateur est enregister il dispose du rôle Utilisateur
-
-                 userRepository.save(user);
-                    return             addRoleToUser(user.getUsername(),"USER");
+        userRepository.save(user);
+                    return addRoleToUser(user.getUsername(),"USER");
 
     }
 

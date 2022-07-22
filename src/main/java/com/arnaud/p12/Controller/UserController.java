@@ -26,7 +26,7 @@ public class UserController  {
         return usersService.findByUserId(id);
     }
 
-    @PostMapping(value = "",produces = MediaType.APPLICATION_JSON_VALUE,consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/save",produces = MediaType.APPLICATION_JSON_VALUE,consumes = MediaType.APPLICATION_JSON_VALUE)
     User saveUser(@RequestBody User user){
         return usersService.saveUser(user);
     }
