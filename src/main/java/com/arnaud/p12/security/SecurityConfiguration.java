@@ -16,9 +16,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.bind.annotation.CrossOrigin;
 
-import static com.arnaud.p12.security.SecParams.allAccess;
-import static com.arnaud.p12.security.SecParams.urlAdmin;
-
 @Configuration
 @EnableWebSecurity
 @CrossOrigin("*")
@@ -44,8 +41,10 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter  {
         http.csrf().disable();
         http.sessionManagement().
                 sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+        // full access
+        http.authorizeRequests().antMatchers("/**/user/save").permitAll();
         http.authorizeRequests().antMatchers("/login").permitAll();
-        // afficher la liste de toute les associations
+        http.authorizeRequests().antMatchers(HttpMethod.POST,"/**/association/save/**/**").permitAll();
 
         //rechercher un association par son id
 

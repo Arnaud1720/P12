@@ -9,7 +9,6 @@ import com.arnaud.p12.repository.RoleRepository;
 import com.arnaud.p12.repository.UserRepository;
 import com.arnaud.p12.service.UsersService;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -39,6 +38,7 @@ public class UsersServiceImpl implements UsersService {
 
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         // par défaut quand un utilisateur est enregister il dispose du rôle Utilisateur
+        user.setEnabled(true);
         userRepository.save(user);
                     return addRoleToUser(user.getUsername(),"USER");
 
@@ -65,6 +65,14 @@ public class UsersServiceImpl implements UsersService {
     @Override
     public List<User> findall() {
         return userRepository.findAll();
+    }
+
+    @Override
+    public void deleteRoleToUser(String username, String rolename) {
+        User usr = userRepository.findByUsername(username);
+        Role role = roleRepository.findByRole(rolename);
+        assert usr.getRoles() != null;
+        usr.getRoles().remove(role);
     }
 
     @Override

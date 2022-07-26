@@ -14,6 +14,6 @@ public interface UsersService {
     Role addRole(Role role);
     User addRoleToUser(String username, String rolename);
     List<User> findall();
-
+    void deleteRoleToUser(String username, String rolename);
 
 }

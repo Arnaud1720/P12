@@ -1,5 +1,7 @@
 package com.arnaud.p12.service.impl;
 
+import com.arnaud.p12.exception.EntityNotFoundException;
+import com.arnaud.p12.exception.ErrorCode;
 import com.arnaud.p12.model.Association;
 import com.arnaud.p12.model.Permission;
 import com.arnaud.p12.model.User;
@@ -8,11 +10,13 @@ import com.arnaud.p12.repository.PermissionRepository;
 import com.arnaud.p12.repository.UserRepository;
 import com.arnaud.p12.service.AssociationService;
 import com.arnaud.p12.service.UsersService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+@Slf4j
 public class AssociationServiceImpl implements AssociationService {
     final AssociationRepository associationRepository;
     final UserRepository userRepository;
@@ -51,12 +55,11 @@ public class AssociationServiceImpl implements AssociationService {
 
     @Override
     public Association save(Association association,long id) {
-        User usr = userRepository.findById(id).orElse(null);
-        association.setUser(usr);
-        usersService.addRoleToUser(usr.getUsername(),"GESTIONAIRE");
-        addPermissionToUser(usr.getUsername(),"CREATE");
-        addPermissionToUser(usr.getUsername(),"READ");
-        addPermissionToUser(usr.getUsername(),"UPDATE");
+        User user = userRepository.findById(id).orElseThrow(()->new EntityNotFoundException("", ErrorCode.USER_NOT_FOUND));
+        usersService.addRoleToUser(user.getUsername(),"GESTIONAIRE");
+        addPermissionToUser(user.getUsername(),"CONSULTER");
+        addPermissionToUser(user.getUsername(),"EDITER");
+        addPermissionToUser(user.getUsername(),"SUPPRIMER");
 
         return associationRepository.save(association);
     }
