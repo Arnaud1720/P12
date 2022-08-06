@@ -9,11 +9,14 @@ import com.arnaud.p12.repository.RoleRepository;
 import com.arnaud.p12.repository.UserRepository;
 import com.arnaud.p12.service.UsersService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -73,6 +76,22 @@ public class UsersServiceImpl implements UsersService {
         Role role = roleRepository.findByRole(rolename);
         assert usr.getRoles() != null;
         usr.getRoles().remove(role);
+    }
+
+    @Override
+    public List<User> searchUser(String keyword) {
+        List<User> userSearch = userRepository.searchUser(keyword);
+        if(userSearch.isEmpty()){
+            throw new EntityNotFoundException("aucun utilisateur ne correspond a vôtre recherche",ErrorCode.USER_NOT_FOUND);
+        }else
+            return userSearch;
+    }
+
+    @Override
+    public User getAccountUser(long accountId, int page, int size) {
+        Page<User> usersOperation = userRepository.findById(accountId, PageRequest.of(page,size));
+        List<User> usersContents= usersOperation.getContent().stream().toList();
+        return null;
     }
 
     @Override

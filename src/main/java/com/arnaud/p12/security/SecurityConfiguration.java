@@ -5,6 +5,7 @@ import com.arnaud.p12.security.jwt.JWTAuthorizationFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.MediaType;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -40,17 +41,18 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter  {
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable();
         http.sessionManagement().
-                sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-        // full access
-        http.authorizeRequests().antMatchers("/**/user/save").permitAll();
+                sessionCreationPolicy(SessionCreationPolicy.ALWAYS);
         http.authorizeRequests().antMatchers("/login").permitAll();
+        http.authorizeRequests().antMatchers(HttpMethod.GET,"/**/association/save/**/**").permitAll();
+        http.authorizeRequests().antMatchers(HttpMethod.GET,"**/**/association/all").permitAll();
         http.authorizeRequests().antMatchers(HttpMethod.POST,"/**/association/save/**/**").permitAll();
+        http.authorizeRequests().antMatchers(HttpMethod.POST,"/**/**/user/save").permitAll();
 
-        //rechercher un association par son id
+        http.authorizeRequests().antMatchers(HttpMethod.GET,"/**/user/all").permitAll();
 
-        //supprimer un utilisateur
-
-
+        http.authorizeRequests().antMatchers(HttpMethod.GET,"/**/user/search").permitAll();
+        http.authorizeRequests().antMatchers(HttpMethod.DELETE,"/**/user/{id}").permitAll();
+        http.authorizeRequests().antMatchers(HttpMethod.GET,"/**/user/{id}").permitAll();
         http.authorizeRequests().anyRequest().authenticated();
 
         http.addFilter(new JWTAuthenticationFilter(authenticationManager())) ;

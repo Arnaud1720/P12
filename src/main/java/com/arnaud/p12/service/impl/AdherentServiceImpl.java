@@ -35,17 +35,19 @@ public class AdherentServiceImpl implements AdherentServices {
     @Override
     public Adherents saveNewAdherent( long idUser, long idAsso,Adherents adherents) {
          String url = "http://localhost:4200/login";
+         String urlInscription = "http://localhost:4200/creation/utilisateur";
         User user = userRepository.findById(idUser).orElseThrow(()->new EntityNotFoundException("", ErrorCode.USER_NOT_FOUND));
         Association association = associationRepository.findById(idAsso).orElseThrow(()->new EntityNotFoundException("",ErrorCode.ASSOCIATION_NOT_FOUND));
         adherents.setUser(user);
         adherents.setAssociation(association);
         adherents.setLicenseStart(LocalDate.now());
         adherents.setLicenseStop(LocalDate.now().plusMonths(6));
+        adherents.setNotValid(false);
         association.setNbrAdherent(+1);
         usersService.addRoleToUser(user.getUsername(),"ADHERENT");
         javaMailSender.sendEmail(user.getEmail(),"nouvelle adherent","nom:"+user.getFristName()+
                 "\n prénom: "+user.getLastName()+"\n date début : "+adherents.getLicenseStart()+"\n date fin "+adherents.getLicenseStop()+"" +
-                "\n pour acceder a votre compte rendez vous sur "+" "+url );
+                "\n pour acceder a votre compte rendez vous sur "+" "+url+"si vous n'etes pas encore inscrit rendez vous sur"+" "+urlInscription);
          adherents.setAdherent(true);
         if(adherents.isAdherent()){
             log.warn("dèja adherent");

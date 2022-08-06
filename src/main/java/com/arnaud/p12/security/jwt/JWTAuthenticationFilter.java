@@ -22,7 +22,7 @@ import java.util.List;
 
 import static com.arnaud.p12.security.SecParams.EXP_TIME;
 
-@CrossOrigin("http://localhost:4200")
+@CrossOrigin("*")
 public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
     @Autowired
     private AuthenticationManager authenticationManager;

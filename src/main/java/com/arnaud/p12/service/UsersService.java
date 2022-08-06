@@ -15,5 +15,7 @@ public interface UsersService {
     User addRoleToUser(String username, String rolename);
     List<User> findall();
     void deleteRoleToUser(String username, String rolename);
+    List<User> searchUser(String keyword);
 
+    User getAccountUser(long accountId, int page, int size);
 }
