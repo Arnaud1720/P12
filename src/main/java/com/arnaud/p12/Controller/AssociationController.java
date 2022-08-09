@@ -29,9 +29,9 @@ public class AssociationController {
         associationService.deleteById(id);
     }
 
-    @PostMapping(value = "/save/{idUser}",produces = MediaType.APPLICATION_JSON_VALUE,consumes = MediaType.APPLICATION_JSON_VALUE)
-    public Association save(@RequestBody Association association,@PathVariable(name = "idUser")long id){
-        return associationService.save(association, id);
+    @PostMapping(value = "/save/{username}",produces = MediaType.APPLICATION_JSON_VALUE,consumes = MediaType.APPLICATION_JSON_VALUE)
+    public Association save(@RequestBody Association association,@PathVariable(name = "username")String username){
+        return associationService.save(association, username);
     }
 
 

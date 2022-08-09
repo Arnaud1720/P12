@@ -6,7 +6,6 @@ import com.arnaud.p12.service.UsersService;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
-import javax.transaction.Transactional;
 import java.util.List;
 
 @RestController
@@ -57,5 +56,15 @@ public class UserController  {
     public User getAccount(@RequestParam(name = "page",defaultValue = "0") int page,
                                  @RequestParam(name = "size",defaultValue = "5") int size,@PathVariable(name = "id")long accountId){
         return usersService.getAccountUser(accountId,page,size);
+    }
+
+    @PutMapping("/update")
+    public User updateUser(@RequestBody User userBody){
+        return usersService.saveUser(userBody);
+    }
+
+    @GetMapping(value = "/{username}")
+    public User findByUsername(@PathVariable(name = "username")String username){
+        return usersService.findUserByUsername(username).orElse(null);
     }
 }

@@ -57,16 +57,16 @@ public class AssociationServiceImpl implements AssociationService {
 
     @Override
     public User addPermissionToUser(String username, String name) {
-        User usr = userRepository.findByUsername(username);
+        User usr = userRepository.findByUsername(username).orElseThrow(()->new EntityNotFoundException("aucun utilisateur ne correspond a ce pseudo",ErrorCode.USER_NOT_FOUND));
         Permission perm=permissionRepository.findByName(name);
         usr.getPermissions().add(perm);
         return usr;
     }
 
     @Override
-    public Association save(Association association,long id) {
+    public Association save(Association association,String username) {
         String url = "http://localhost:4200/login";
-        User user = userRepository.findById(id).orElseThrow(()->new EntityNotFoundException("", ErrorCode.USER_NOT_FOUND));
+        User user = userRepository.findByUsername(username).orElseThrow(()->new EntityNotFoundException("aucun utilisateur ne correspond a ce pseudo",ErrorCode.USER_NOT_FOUND));
         association.setDateCreation(LocalDateTime.now());
         usersService.addRoleToUser(user.getUsername(),"GESTIONAIRE");
         addPermissionToUser(user.getUsername(),"CONSULTER");
@@ -80,7 +80,7 @@ public class AssociationServiceImpl implements AssociationService {
 
     @Override
     public void removePermissionToUser(String username, String name) {
-        User usr = userRepository.findByUsername(username);
+        User usr = userRepository.findByUsername(username).orElseThrow(()->new EntityNotFoundException("aucun utilisateur ne correspond a ce pseudo",ErrorCode.USER_NOT_FOUND));
         Permission perm=permissionRepository.findByName(name);
         usr.getPermissions().remove(perm);
     }

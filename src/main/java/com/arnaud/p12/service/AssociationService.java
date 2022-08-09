@@ -11,6 +11,6 @@ public interface AssociationService {
     List<Association> findAll();
     void deleteById(long id);
     User addPermissionToUser(String username, String permission);
-    Association save(Association association,long id);
+    Association save(Association association,String username);
     void  removePermissionToUser(String username, String name);
 }

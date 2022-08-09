@@ -16,7 +16,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Optional;
 
 
 @Service
@@ -48,7 +48,7 @@ public class UsersServiceImpl implements UsersService {
     }
 
     @Override
-    public User findUserByUsername(String username) {
+    public Optional<User> findUserByUsername(String username) {
         return userRepository.findByUsername(username);
     }
 
@@ -59,7 +59,7 @@ public class UsersServiceImpl implements UsersService {
 
     @Override
     public User addRoleToUser(String username, String rolename) {
-        User usr = userRepository.findByUsername(username);
+        User usr = userRepository.findByUsername(username).orElseThrow(()->new EntityNotFoundException("aucun utilisateur ne correspond a ce pseudo",ErrorCode.USER_NOT_FOUND));
         Role role = roleRepository.findByRole(rolename);
         usr.getRoles().add(role);
         return usr;
@@ -72,7 +72,7 @@ public class UsersServiceImpl implements UsersService {
 
     @Override
     public void deleteRoleToUser(String username, String rolename) {
-        User usr = userRepository.findByUsername(username);
+        User usr = userRepository.findByUsername(username).orElseThrow(()->new EntityNotFoundException("aucun utilisateur ne correspond a ce pseudo",ErrorCode.USER_NOT_FOUND));
         Role role = roleRepository.findByRole(rolename);
         assert usr.getRoles() != null;
         usr.getRoles().remove(role);
@@ -94,6 +94,9 @@ public class UsersServiceImpl implements UsersService {
         return null;
     }
 
+
+
+
     @Override
     public void deleteByUserId(long id) {
         userRepository.deleteById(id);
@@ -104,6 +107,8 @@ public class UsersServiceImpl implements UsersService {
 
         return userRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("l'utilisateur n'existe pas", ErrorCode.USER_NOT_FOUND));
     }
+
+
 
 
 }

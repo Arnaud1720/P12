@@ -22,7 +22,7 @@ public class MyUserDetailsService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws
             UsernameNotFoundException {
-        User user = userService.findUserByUsername(username);
+        User user = userService.findUserByUsername(username).orElseThrow(null);
         if (user==null)
             throw new UsernameNotFoundException("Utilisateur introuvable !");
         List<GrantedAuthority> auths = new ArrayList<>();
