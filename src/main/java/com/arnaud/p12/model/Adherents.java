@@ -1,14 +1,13 @@
 package com.arnaud.p12.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.sun.istack.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
 import java.time.LocalDate;
 
 @Entity(name = "adherents")
@@ -17,8 +16,10 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Adherents {
+    @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Id
-    private long id;
+    private Integer id;
     @Column(name = "adherent_nom")
     private String nom;
     @Column(name = "adherent_license_start")
@@ -27,9 +28,9 @@ public class Adherents {
     private LocalDate licenseStop;
     @Column(name = "not_valid")
     private boolean notValid;
-    @OneToOne
+    @ManyToOne
     private User user;
-    @OneToOne
+    @ManyToOne
     private Association association;
     @Column(name = "is_adherent")
     private boolean isAdherent;

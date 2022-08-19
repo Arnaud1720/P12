@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface AdherentRepository extends JpaRepository<Adherents,Long> {
+public interface AdherentRepository extends JpaRepository<Adherents,Integer> {
     @Query(nativeQuery = true,value = "SELECT * from adherents where adherent_license_stop < now()")
     boolean isValidLicense();
 }

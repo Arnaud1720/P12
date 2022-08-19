@@ -23,7 +23,7 @@ public class Association implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @NotNull
-    private long id;
+    private Integer id;
     @Column(name = "nom_Association")
     private String nom;
     @Column(name = "description_Association",length = 3500)
@@ -37,10 +37,16 @@ public class Association implements Serializable {
     private String numTelAsso;
     @Column(name = "email_asso")
     private String email;
-    @OneToOne
-    @Nullable
+    @ManyToOne
     private User user;
     @Column(name = "nbr_adherent")
     private int nbrAdherent = 0;
 
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
 }

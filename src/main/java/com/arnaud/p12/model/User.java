@@ -19,7 +19,7 @@ public class User implements Serializable {
     @Id
     @Column(name = "id",unique = true)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Integer id;
     @Column(name = "last_name")
     private String lastName;
     @Column(name = "frist_name")
@@ -35,14 +35,25 @@ public class User implements Serializable {
     @Column(name = "username",unique = true)
     private String username;
     private boolean enabled;
-
+    @OneToMany(mappedBy = "user")
+    private List<Adherents> adherents;
+    @OneToMany(mappedBy = "user")
+    private List<Association> association;
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name= "user_role",joinColumns = @JoinColumn(name= "user_id", referencedColumnName = "id") ,
             inverseJoinColumns = @JoinColumn(name= "role_id", referencedColumnName = "role_id"))
-    @Nullable
+
     private List<Role> roles = new java.util.ArrayList<>();
 
     @ManyToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
     @JoinTable(name = "permission_role",joinColumns = @JoinColumn(name = "user_id"),inverseJoinColumns = @JoinColumn(name = "p_permission"))
     private List<Permission> permissions;
+
+
+    public Integer setId(Integer id) {
+      return   this.id = id;
+    }
+
+
 }
+

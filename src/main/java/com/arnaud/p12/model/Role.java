@@ -12,10 +12,11 @@ import java.io.Serializable;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+
 public class Role implements Serializable {
 
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
-    private Long role_id;
+    private Integer role_id;
     private String role;
 }

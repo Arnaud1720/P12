@@ -9,8 +9,6 @@ import com.arnaud.p12.repository.RoleRepository;
 import com.arnaud.p12.repository.UserRepository;
 import com.arnaud.p12.service.UsersService;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -47,6 +45,22 @@ public class UsersServiceImpl implements UsersService {
 
     }
 
+//    @Override
+//    public User updateUser(User userBody, String username) throws EntityNotFoundException {
+//        // Objet null recupéré
+//        userRepository.findUserByUsername(username);
+//        userBody.setEmail(userBody.getEmail());
+//        userBody.setPassword(bCryptPasswordEncoder.encode(userBody.getPassword()));
+//        userBody.setPhoneNumber(userBody.getPhoneNumber());
+//        userBody.setRoles(userBody.getRoles());
+//        if(!userBody.getRoles().isEmpty()){
+//            return userRepository.save(userBody);
+//        }
+//        addRoleToUser(userBody.getUsername(),"USER");
+//        return userRepository.save(userBody);
+//    }
+
+
     @Override
     public Optional<User> findUserByUsername(String username) {
         return userRepository.findByUsername(username);
@@ -56,6 +70,21 @@ public class UsersServiceImpl implements UsersService {
     public Role addRole(Role role) {
         return roleRepository.save(role);
     }
+
+    @Override
+    public User updateUserWithId(Integer id) throws EntityNotFoundException{
+        User user = userRepository.findUserById(id);
+        user.setEmail(user.getEmail());
+        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+        user.setPhoneNumber(user.getPhoneNumber());
+        user.setRoles(user.getRoles());
+        if(!user.getRoles().isEmpty()){
+            return userRepository.save(user);
+        }
+        addRoleToUser(user.getUsername(),"USER");
+        return userRepository.save(user);
+    }
+
 
     @Override
     public User addRoleToUser(String username, String rolename) {
@@ -87,23 +116,18 @@ public class UsersServiceImpl implements UsersService {
             return userSearch;
     }
 
-    @Override
-    public User getAccountUser(long accountId, int page, int size) {
-        Page<User> usersOperation = userRepository.findById(accountId, PageRequest.of(page,size));
-        List<User> usersContents= usersOperation.getContent().stream().toList();
-        return null;
-    }
+
 
 
 
 
     @Override
-    public void deleteByUserId(long id) {
+    public void deleteByUserId(Integer id) {
         userRepository.deleteById(id);
     }
 
     @Override
-    public User findByUserId(long id) {
+    public User findByUserId(Integer id) {
 
         return userRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("l'utilisateur n'existe pas", ErrorCode.USER_NOT_FOUND));
     }

@@ -1,5 +1,6 @@
 package com.arnaud.p12.repository;
 
+import com.arnaud.p12.model.Role;
 import com.arnaud.p12.model.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -14,13 +15,12 @@ import java.util.Optional;
 
 @Repository
 @CrossOrigin("*")
-public interface UserRepository extends JpaRepository<User,Long> {
+public interface UserRepository extends JpaRepository<User,Integer> {
     Optional<User> findByUsername(String username);
 
-    //    List<User> findByFristNameContains(String keyword);
     @Query("select u from users u where u.username like :kc")
     List<User> searchUser(@Param(value = "kc") String keyword);
-    Page<User> findById(long accountId, Pageable pageable);
 
+    User findUserById(Integer id);
 
 }

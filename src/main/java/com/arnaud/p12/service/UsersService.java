@@ -8,16 +8,25 @@ import java.util.List;
 import java.util.Optional;
 
 public interface UsersService {
-    void deleteByUserId(long id);
-    User findByUserId(long id);
+
+
     User saveUser(User user);
-    Optional<User> findUserByUsername (String username);
+//     User updateUser(User userBody,String username);
+    Optional<User> findUserByUsername(String username);
+
     Role addRole(Role role);
+
+    User updateUserWithId(Integer id);
+
     User addRoleToUser(String username, String rolename);
+
     List<User> findall();
+
     void deleteRoleToUser(String username, String rolename);
+
     List<User> searchUser(String keyword);
 
-    User getAccountUser(long accountId, int page, int size);
+    void deleteByUserId(Integer id);
 
+    User findByUserId(Integer id);
 }

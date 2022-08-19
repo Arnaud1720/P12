@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface AssociationRepository extends JpaRepository<Association,Long> {
+public interface AssociationRepository extends JpaRepository<Association,Integer> {
     @Query("select a from association a where a.user.id = :id")
     Association findByUsersId(@Param("id")long id);
 

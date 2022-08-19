@@ -14,27 +14,26 @@ public class AdherentsController {
     @Autowired
     AdherentServices adherentServices;
 
-    @PostMapping(value = "/{idUser}/{idAsso}/save", produces = MediaType.APPLICATION_JSON_VALUE)
-    private Adherents save(@PathVariable(name = "idUser")long idUser,
-                           @PathVariable(name = "idAsso")long idAsso,
+    @PostMapping(value = "/{username}/save", produces = MediaType.APPLICATION_JSON_VALUE,consumes = MediaType.APPLICATION_JSON_VALUE)
+    private Adherents save(@PathVariable(name = "username")String username, @RequestParam(name = "idAsso") int idAsso,
                            @RequestBody Adherents adherents){
-     return    adherentServices.saveNewAdherent(idUser,idAsso,adherents);
+     return    adherentServices.saveNewAdherent(username,idAsso,adherents);
     }
 
     @GetMapping(value = "/{id}")
-    private Adherents findById(@PathVariable(name = "id")long id){
+    private Adherents findById(@PathVariable(name = "id")Integer id){
         return adherentServices.findById(id);
     }
 
-    @PostMapping(value = "/{idUser}/{idAsso}/delete", produces = MediaType.APPLICATION_JSON_VALUE)
-    private void deleteAdherent(@PathVariable(name = "idUser")long idUser,
-                           @PathVariable(name = "idAsso")long idAsso,
+    @DeleteMapping(value = "/{idUser}/{idAsso}/delete", produces = MediaType.APPLICATION_JSON_VALUE)
+    private void deleteAdherent(@PathVariable(name = "idUser")Integer idUser,
+                           @PathVariable(name = "idAsso")Integer idAsso,
                            @RequestBody Adherents adherents){
             adherentServices.deleteAdherent(idUser,idAsso,adherents);
     }
     @PostMapping(value = "/{idUser}/{idAsso}/update/",produces = MediaType.APPLICATION_JSON_VALUE)
-    private Adherents updateLicenseAdherent(@PathVariable(name = "idUser")long idUser,
-                                            @PathVariable(name = "idAsso")long idAsso,
+    private Adherents updateLicenseAdherent(@PathVariable(name = "idUser")Integer idUser,
+                                            @PathVariable(name = "idAsso")Integer idAsso,
                                             @RequestBody Adherents adherents) {
 
             return adherentServices.updateLicenseValidity(idUser,idAsso,adherents);

@@ -7,6 +7,7 @@ import com.arnaud.p12.model.Permission;
 import com.arnaud.p12.model.User;
 import com.arnaud.p12.repository.AssociationRepository;
 import com.arnaud.p12.repository.PermissionRepository;
+import com.arnaud.p12.repository.RoleRepository;
 import com.arnaud.p12.repository.UserRepository;
 import com.arnaud.p12.service.AssociationService;
 import com.arnaud.p12.service.UsersService;
@@ -27,11 +28,13 @@ public class AssociationServiceImpl implements AssociationService {
     final UsersService usersService;
     @Autowired
     private JavaMailSenderImpl javaMailSender;
-    public AssociationServiceImpl(AssociationRepository associationRepository, UserRepository userRepository, PermissionRepository permissionRepository, UsersService usersService) {
+    final RoleRepository roleRepository;
+    public AssociationServiceImpl(AssociationRepository associationRepository, UserRepository userRepository, PermissionRepository permissionRepository, UsersService usersService, RoleRepository roleRepository) {
         this.associationRepository = associationRepository;
         this.userRepository = userRepository;
         this.permissionRepository = permissionRepository;
         this.usersService = usersService;
+        this.roleRepository = roleRepository;
     }
 
 
@@ -48,7 +51,7 @@ public class AssociationServiceImpl implements AssociationService {
      */
     //TODO trouver un moyen de remove les perms dans la méthode deleteById
     @Override
-    public void deleteById(long id) {
+    public void deleteById(Integer id) {
         associationRepository.deleteById(id);
 
     }
@@ -63,11 +66,19 @@ public class AssociationServiceImpl implements AssociationService {
         return usr;
     }
 
+    /**
+     *
+     * @param association
+     * @param username
+     * @return
+     */
+     //TODO mettre en place un check qui vérifie qu'un utilisateur ne peu pas avoir plusieurs fois des perm || role
     @Override
-    public Association save(Association association,String username) {
+    public Association save(Association association, String username) {
         String url = "http://localhost:4200/login";
         User user = userRepository.findByUsername(username).orElseThrow(()->new EntityNotFoundException("aucun utilisateur ne correspond a ce pseudo",ErrorCode.USER_NOT_FOUND));
         association.setDateCreation(LocalDateTime.now());
+        association.setUser(user);
         usersService.addRoleToUser(user.getUsername(),"GESTIONAIRE");
         addPermissionToUser(user.getUsername(),"CONSULTER");
         addPermissionToUser(user.getUsername(),"EDITER");

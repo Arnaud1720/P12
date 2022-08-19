@@ -25,7 +25,7 @@ public class AssociationController {
     }
 
     @DeleteMapping("/{id}")
-    public void deleteById(@PathVariable(name = "id") long id) {
+    public void deleteById(@PathVariable(name = "id") Integer id) {
         associationService.deleteById(id);
     }
 

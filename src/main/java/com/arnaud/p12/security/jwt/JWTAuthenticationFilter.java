@@ -22,7 +22,6 @@ import java.util.List;
 
 import static com.arnaud.p12.security.SecParams.EXP_TIME;
 
-@CrossOrigin("*")
 public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
     @Autowired
     private AuthenticationManager authenticationManager;
@@ -62,6 +61,7 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         String jwt = JWT.create().
                 withSubject(springUser.getUsername()).
                 withArrayClaim("roles", roles.toArray(new String[0])).
+
                 withClaim("username",springUser.getUsername()).
                 withExpiresAt(new Date(System.currentTimeMillis() + EXP_TIME)).
                 sign(Algorithm.HMAC256("mySecretKey05030122°"));

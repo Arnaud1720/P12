@@ -16,7 +16,7 @@ import java.io.Serializable;
 public class Permission implements Serializable {
     @Id
     @Column(name = "id_permission")
-    private long id;
+    private Integer id;
     @Column(name = "permission_name")
     private String name;
 }

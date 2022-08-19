@@ -21,7 +21,7 @@ public class UserController  {
     }
 
     @GetMapping(value = "/{id}",produces = MediaType.APPLICATION_JSON_VALUE)
-    User findByUserId(@PathVariable("id") long id){
+    User findByUserId(@PathVariable("id") Integer id){
         return usersService.findByUserId(id);
     }
 
@@ -37,7 +37,7 @@ public class UserController  {
      *   Détail: La clé (id_permission)=(2) est toujours référencée à partir de la table « permission_role ».
      **/
 
-    void deleteByUserId(@PathVariable(name = "id")long id){
+    void deleteByUserId(@PathVariable(name = "id")Integer id){
         usersService.deleteByUserId(id);
     }
 
@@ -52,19 +52,25 @@ public class UserController  {
         return usersService.searchUser("%"+keyword+"%");
     }
 
-    @GetMapping("/{id}/pageOperations")
-    public User getAccount(@RequestParam(name = "page",defaultValue = "0") int page,
-                                 @RequestParam(name = "size",defaultValue = "5") int size,@PathVariable(name = "id")long accountId){
-        return usersService.getAccountUser(accountId,page,size);
-    }
-
-    @PutMapping("/update")
-    public User updateUser(@RequestBody User userBody){
-        return usersService.saveUser(userBody);
-    }
+//
+//    @RequestMapping(
+//            value = "/update/{username}",
+//            produces = MediaType.APPLICATION_JSON_VALUE,
+//            method = {RequestMethod.GET, RequestMethod.PUT})
+//    public User updateUser(@PathVariable(value = "username")String username, @RequestBody User userBody){
+//        return usersService.updateUser(userBody,username);
+//    }
 
     @GetMapping(value = "/{username}")
     public User findByUsername(@PathVariable(name = "username")String username){
         return usersService.findUserByUsername(username).orElse(null);
+    }
+
+    @RequestMapping(
+            value = "/update/{id}",
+            produces = MediaType.APPLICATION_JSON_VALUE,
+            method = {RequestMethod.GET, RequestMethod.PUT})
+    public User updateUser(@PathVariable(value = "id")Integer id, @RequestBody User userBody){
+        return usersService.updateUserWithId(id);
     }
 }
