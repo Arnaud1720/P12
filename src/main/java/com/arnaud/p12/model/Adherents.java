@@ -29,7 +29,8 @@ public class Adherents {
     @Column(name = "not_valid")
     private boolean notValid;
     @ManyToOne
-    private User user;
+    @JsonIgnore
+    private User userAdherent;
     @ManyToOne
     private Association association;
     @Column(name = "is_adherent")

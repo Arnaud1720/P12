@@ -45,22 +45,6 @@ public class UsersServiceImpl implements UsersService {
 
     }
 
-//    @Override
-//    public User updateUser(User userBody, String username) throws EntityNotFoundException {
-//        // Objet null recupéré
-//        userRepository.findUserByUsername(username);
-//        userBody.setEmail(userBody.getEmail());
-//        userBody.setPassword(bCryptPasswordEncoder.encode(userBody.getPassword()));
-//        userBody.setPhoneNumber(userBody.getPhoneNumber());
-//        userBody.setRoles(userBody.getRoles());
-//        if(!userBody.getRoles().isEmpty()){
-//            return userRepository.save(userBody);
-//        }
-//        addRoleToUser(userBody.getUsername(),"USER");
-//        return userRepository.save(userBody);
-//    }
-
-
     @Override
     public Optional<User> findUserByUsername(String username) {
         return userRepository.findByUsername(username);
@@ -73,7 +57,7 @@ public class UsersServiceImpl implements UsersService {
 
     @Override
     public User updateUserWithId(Integer id) throws EntityNotFoundException{
-        User user = userRepository.findUserById(id);
+        User user = userRepository.findById(id).orElseThrow(null);
         user.setEmail(user.getEmail());
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         user.setPhoneNumber(user.getPhoneNumber());
@@ -127,12 +111,9 @@ public class UsersServiceImpl implements UsersService {
     }
 
     @Override
-    public User findByUserId(Integer id) {
-
-        return userRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("l'utilisateur n'existe pas", ErrorCode.USER_NOT_FOUND));
+    public User findById(Integer id) throws EntityNotFoundException {
+        return userRepository.findById(id).orElseThrow();
     }
-
-
 
 
 }

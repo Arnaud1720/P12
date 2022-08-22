@@ -45,7 +45,7 @@ public class AdherentServiceImpl implements AdherentServices {
 //         boolean isAdh = roleRepository.findIfArdlyAdh(username);
         Association association = associationRepository.findById(idAsso).orElseThrow(()->new EntityNotFoundException("",ErrorCode.ASSOCIATION_NOT_FOUND));
         association.setNbrAdherent(association.getNbrAdherent()+1);
-        adherents.setUser(user);
+        adherents.setUserAdherent(user);
         adherents.setAssociation(association);
         adherents.setLicenseStart(LocalDate.now());
         adherents.setLicenseStop(LocalDate.now().plusMonths(6));
@@ -76,7 +76,7 @@ public class AdherentServiceImpl implements AdherentServices {
     public void deleteAdherent(Integer idUser, Integer idAsso, Adherents adherents) {
         User user = userRepository.findById(idUser).orElseThrow(()->new EntityNotFoundException("", ErrorCode.USER_NOT_FOUND));
         Association association = associationRepository.findById(idAsso).orElseThrow(()->new EntityNotFoundException("",ErrorCode.ASSOCIATION_NOT_FOUND));
-        adherents.setUser(user);
+        adherents.setUserAdherent(user);
         adherents.setAssociation(association);
         usersService.deleteRoleToUser(user.getUsername(),"ADHERENT");
         association.setNbrAdherent(-1);
@@ -96,7 +96,7 @@ public class AdherentServiceImpl implements AdherentServices {
 
         User user = userRepository.findById(idUser).orElseThrow(()->new EntityNotFoundException("", ErrorCode.USER_NOT_FOUND));
         Association association = associationRepository.findById(idAsso).orElseThrow(()->new EntityNotFoundException("",ErrorCode.ASSOCIATION_NOT_FOUND));
-        adherents.setUser(user);
+        adherents.setUserAdherent(user);
         adherents.setAssociation(association);
         if(isValidLicense()){
                 adherents.setLicenseStop(dateFin.plusMonths(3));

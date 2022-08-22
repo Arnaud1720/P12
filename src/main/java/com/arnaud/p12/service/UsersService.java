@@ -28,5 +28,5 @@ public interface UsersService {
 
     void deleteByUserId(Integer id);
 
-    User findByUserId(Integer id);
+    User findById(Integer id);
 }

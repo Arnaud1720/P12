@@ -11,7 +11,7 @@ import java.util.List;
 @Repository
 public interface AssociationRepository extends JpaRepository<Association,Integer> {
     @Query("select a from association a where a.user.id = :id")
-    Association findByUsersId(@Param("id")long id);
+    Association findByUsersId(@Param("id")int id);
 
     @Query("select a from association a")
     List<Association> findAll();

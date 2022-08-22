@@ -1,5 +1,6 @@
 package com.arnaud.p12.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.sun.istack.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -11,6 +12,7 @@ import org.springframework.lang.Nullable;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.Collection;
 
 @Entity(name = "association")
 @Getter
@@ -38,9 +40,12 @@ public class Association implements Serializable {
     @Column(name = "email_asso")
     private String email;
     @ManyToOne
+    @JsonIgnore
     private User user;
     @Column(name = "nbr_adherent")
     private int nbrAdherent = 0;
+    @OneToMany(mappedBy = "associationAct")
+    private Collection<Activites> activites;
 
     public User getUser() {
         return user;

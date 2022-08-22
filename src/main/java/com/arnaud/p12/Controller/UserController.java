@@ -20,9 +20,9 @@ public class UserController  {
         this.usersService = usersService;
     }
 
-    @GetMapping(value = "/{id}",produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/{id}",consumes = MediaType.APPLICATION_JSON_VALUE)
     User findByUserId(@PathVariable("id") Integer id){
-        return usersService.findByUserId(id);
+        return usersService.findById(id);
     }
 
     @PostMapping(value = "/save",produces = MediaType.APPLICATION_JSON_VALUE,consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -52,14 +52,6 @@ public class UserController  {
         return usersService.searchUser("%"+keyword+"%");
     }
 
-//
-//    @RequestMapping(
-//            value = "/update/{username}",
-//            produces = MediaType.APPLICATION_JSON_VALUE,
-//            method = {RequestMethod.GET, RequestMethod.PUT})
-//    public User updateUser(@PathVariable(value = "username")String username, @RequestBody User userBody){
-//        return usersService.updateUser(userBody,username);
-//    }
 
     @GetMapping(value = "/{username}")
     public User findByUsername(@PathVariable(name = "username")String username){

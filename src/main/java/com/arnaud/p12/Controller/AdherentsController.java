@@ -20,7 +20,7 @@ public class AdherentsController {
      return    adherentServices.saveNewAdherent(username,idAsso,adherents);
     }
 
-    @GetMapping(value = "/{id}")
+    @GetMapping(value = "/{id}",consumes = MediaType.APPLICATION_JSON_VALUE)
     private Adherents findById(@PathVariable(name = "id")Integer id){
         return adherentServices.findById(id);
     }

@@ -43,6 +43,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter  {
         http.sessionManagement().
                 sessionCreationPolicy(SessionCreationPolicy.ALWAYS);
         http.authorizeRequests().antMatchers("/login").permitAll();
+        http.authorizeRequests().antMatchers("/**/activites/**").permitAll();
         http.authorizeRequests().antMatchers(HttpMethod.GET,"/**/association/save/**/**").permitAll();
         http.authorizeRequests().antMatchers(HttpMethod.GET,"**/**/association/all").permitAll();
         http.authorizeRequests().antMatchers(HttpMethod.POST,"/**/association/save/**/**").permitAll();

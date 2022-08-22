@@ -6,6 +6,7 @@ import org.springframework.lang.Nullable;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.List;
 
 
@@ -35,10 +36,11 @@ public class User implements Serializable {
     @Column(name = "username",unique = true)
     private String username;
     private boolean enabled;
+    @JsonIgnore
+    @OneToMany(mappedBy = "userAdherent")
+    private Collection<Adherents> adherents;
     @OneToMany(mappedBy = "user")
-    private List<Adherents> adherents;
-    @OneToMany(mappedBy = "user")
-    private List<Association> association;
+    private Collection<Association> association;
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name= "user_role",joinColumns = @JoinColumn(name= "user_id", referencedColumnName = "id") ,
             inverseJoinColumns = @JoinColumn(name= "role_id", referencedColumnName = "role_id"))
@@ -48,7 +50,8 @@ public class User implements Serializable {
     @ManyToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
     @JoinTable(name = "permission_role",joinColumns = @JoinColumn(name = "user_id"),inverseJoinColumns = @JoinColumn(name = "p_permission"))
     private List<Permission> permissions;
-
+    @OneToMany(mappedBy = "userAtc")
+    private Collection<Activites> activites;
 
     public Integer setId(Integer id) {
       return   this.id = id;
