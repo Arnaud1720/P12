@@ -19,7 +19,7 @@ public interface UsersService {
     User updateUserWithId(Integer id);
 
     User addRoleToUser(String username, String rolename);
-
+    User addActToUser(int userId,int actId);
     List<User> findall();
 
     void deleteRoleToUser(String username, String rolename);

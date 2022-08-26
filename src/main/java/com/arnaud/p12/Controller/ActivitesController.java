@@ -4,21 +4,36 @@ import com.arnaud.p12.model.Activites;
 import com.arnaud.p12.service.ActivitesService;
 import  org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
+@CrossOrigin("*")
 @RequestMapping(value = "/act")
 public class ActivitesController {
 
     @Autowired
     ActivitesService activitesService;
 
-    @GetMapping(value = "/{id}",consumes = MediaType.APPLICATION_JSON_VALUE,produces = MediaType.APPLICATION_JSON_VALUE)
-    public Activites findById(@PathVariable(name = "id")int id){
+    @GetMapping(value = "/{id}",produces = MediaType.APPLICATION_JSON_VALUE)
+    private Activites findById(@PathVariable(name = "id")int id){
         return activitesService.findById(id);
     }
 
+    @GetMapping(value = "/all",produces = MediaType.APPLICATION_JSON_VALUE)
+    private List<Activites> findAll(){
+        return activitesService.findall();
+    }
+
+    @PostMapping(value = "/save/{username}/{idAsso}",produces = MediaType.APPLICATION_JSON_VALUE,consumes = MediaType.APPLICATION_JSON_VALUE)
+    private Activites save(@RequestBody Activites activites,@PathVariable(name = "username")String username,@PathVariable(name = "idAsso")int idAsso){
+        return activitesService.save(activites,username,idAsso );
+    }
+
+    @GetMapping(value = "/findall/{idAsso}",produces = MediaType.APPLICATION_JSON_VALUE)
+    private List<Activites> findAllByIdAsso(Activites activites,@PathVariable(name = "idAsso")int id)
+    {
+        return activitesService.findAllByAssoId(activites,id);
+    }
 }

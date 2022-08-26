@@ -4,12 +4,13 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 
 @Entity(name = "activites")
 @Getter
 @Setter
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 public class Activites {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -17,9 +18,9 @@ public class Activites {
     @Column(name = "act_description")
     private String description;
     @Column(name = "act_date_debut")
-    private String dateDebut;
+    private LocalDate dateDebut;
     @Column(name = "act_date_fin")
-    private String dateFin;
+    private LocalDate dateFin;
     @ManyToOne
     @JsonIgnore
     private User userAtc;
@@ -28,3 +29,5 @@ public class Activites {
     private Association associationAct;
 
 }
+//@JoinTable(name= "user_role",joinColumns = @JoinColumn(name= "user_id", referencedColumnName = "id") ,
+//        inverseJoinColumns = @JoinColumn(name= "role_id", referencedColumnName = "role_id"))

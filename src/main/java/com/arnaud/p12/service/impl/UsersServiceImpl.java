@@ -79,6 +79,11 @@ public class UsersServiceImpl implements UsersService {
     }
 
     @Override
+    public User addActToUser(int userId, int actId) {
+        return null;
+    }
+
+    @Override
     public List<User> findall() {
         return userRepository.findAll();
     }
