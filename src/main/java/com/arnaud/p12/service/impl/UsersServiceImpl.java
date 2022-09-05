@@ -50,10 +50,6 @@ public class UsersServiceImpl implements UsersService {
         return userRepository.findByUsername(username);
     }
 
-    @Override
-    public Role addRole(Role role) {
-        return roleRepository.save(role);
-    }
 
     @Override
     public User updateUserWithId(Integer id) throws EntityNotFoundException{
@@ -78,10 +74,7 @@ public class UsersServiceImpl implements UsersService {
         return usr;
     }
 
-    @Override
-    public User addActToUser(int userId, int actId) {
-        return null;
-    }
+
 
     @Override
     public List<User> findall() {

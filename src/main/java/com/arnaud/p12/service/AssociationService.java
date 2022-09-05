@@ -1,6 +1,7 @@
 package com.arnaud.p12.service;
 
 
+import com.arnaud.p12.model.Adherents;
 import com.arnaud.p12.model.Association;
 import com.arnaud.p12.model.User;
 

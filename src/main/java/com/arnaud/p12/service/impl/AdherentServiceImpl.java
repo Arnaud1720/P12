@@ -2,6 +2,7 @@ package com.arnaud.p12.service.impl;
 
 import com.arnaud.p12.exception.EntityNotFoundException;
 import com.arnaud.p12.exception.ErrorCode;
+import com.arnaud.p12.model.Activites;
 import com.arnaud.p12.model.Adherents;
 import com.arnaud.p12.model.Association;
 import com.arnaud.p12.model.User;
@@ -17,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Service
 @Slf4j
@@ -67,6 +69,7 @@ public class AdherentServiceImpl implements AdherentServices {
         }
     }
 
+
     @Override
     public Adherents findById(Integer id) {
         return adherentRepository.findById(id).orElse(null);
@@ -104,6 +107,11 @@ public class AdherentServiceImpl implements AdherentServices {
             log.info("pas hors delai");
         }
         return adherentRepository.save(adherents);
+    }
+
+    @Override
+    public List<Adherents> findAllByAssociationId(int idAsso) {
+        return adherentRepository.findAllByAssociationId(idAsso);
     }
 
 

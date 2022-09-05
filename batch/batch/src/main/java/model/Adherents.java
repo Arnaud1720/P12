@@ -1,43 +1,26 @@
-package com.arnaud.p12.model;
+package model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.sun.istack.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
-import javax.persistence.*;
 import java.time.LocalDate;
-import java.util.LinkedHashSet;
-import java.util.Set;
-import java.util.concurrent.locks.Condition;
 
-@Entity(name = "adherents")
 @Data
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
 public class Adherents {
-    @Column(name = "adh_id")
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Id
+
     private Integer id;
-    @Column(name = "adherent_nom")
     private String nom;
-    @Column(name = "adherent_license_start")
     private LocalDate licenseStart;
-    @Column(name = "adherent_license_stop")
     private LocalDate licenseStop;
-    @Column(name = "not_valid")
     private boolean notValid;
-    @ManyToOne
-    @JsonIgnore
+
     private User userAdherent;
-    @ManyToOne
-    @JsonIgnore
     private Association association;
-    @Column(name = "is_adherent")
     private boolean isAdherent;
 
 

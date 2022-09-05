@@ -17,6 +17,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -55,13 +56,15 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
                 (org.springframework.security.core.userdetails.User)
                         authResult.getPrincipal();
         List<String> roles = new ArrayList<>();
+        List<String> permission = new ArrayList<>();
         springUser.getAuthorities().forEach(au -> {
             roles.add(au.getAuthority());
+            permission.add(au.getAuthority());
         });
         String jwt = JWT.create().
                 withSubject(springUser.getUsername()).
                 withArrayClaim("roles", roles.toArray(new String[0])).
-
+                withClaim("permision", Arrays.asList(permission.toArray(new String[0]))).
                 withClaim("username",springUser.getUsername()).
                 withExpiresAt(new Date(System.currentTimeMillis() + EXP_TIME)).
                 sign(Algorithm.HMAC256("mySecretKey05030122°"));

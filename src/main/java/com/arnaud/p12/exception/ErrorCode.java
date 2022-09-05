@@ -6,7 +6,8 @@ public enum ErrorCode {
     USER_NOT_VALID(1001),
     MAIL_FORMAT_INVALID(1002),
     NONE_ROLE_COLLECTION(2000),
-    ASSOCIATION_NOT_FOUND(3000);
+    ASSOCIATION_NOT_FOUND(3000),
+    STILL_RSGISTERED(4004);
 
 
     private final int code;

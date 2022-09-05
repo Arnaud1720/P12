@@ -16,5 +16,4 @@ public interface AssociationRepository extends JpaRepository<Association,Integer
     @Query("select a from association a")
     List<Association> findAll();
 
-
 }

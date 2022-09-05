@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @CrossOrigin("*")
 @RequestMapping(value = "/adherent")
@@ -37,5 +39,11 @@ public class AdherentsController {
                                             @RequestBody Adherents adherents) {
 
             return adherentServices.updateLicenseValidity(idUser,idAsso,adherents);
+    }
+    @GetMapping(value = "/{idAsso}",produces = MediaType.APPLICATION_JSON_VALUE)
+    private List<Adherents> findAdhByIdAsso(@PathVariable(name = "idAsso")int idAsso){
+        List<Adherents> adherentsList =  adherentServices.findAllByAssociationId(idAsso);
+        System.out.println(adherentsList);
+        return adherentsList;
     }
 }

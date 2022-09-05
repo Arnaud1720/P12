@@ -21,7 +21,7 @@ public class ActivitesController {
         return activitesService.findById(id);
     }
 
-    @GetMapping(value = "/all",produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/all",produces  = MediaType.APPLICATION_JSON_VALUE)
     private List<Activites> findAll(){
         return activitesService.findall();
     }
@@ -35,5 +35,15 @@ public class ActivitesController {
     private List<Activites> findAllByIdAsso(Activites activites,@PathVariable(name = "idAsso")int id)
     {
         return activitesService.findAllByAssoId(activites,id);
+    }
+    @PostMapping(value = "/save/adh/activite",produces = MediaType.APPLICATION_JSON_VALUE)
+    private Activites saveActAdh(@RequestParam(name = "idAdh")int idAdh,
+                                 @RequestParam(name = "idAct")int idAct){
+        return activitesService.saveToAdh(idAdh, idAct);
+    }
+
+    @DeleteMapping(value = "/delete/{id}",produces = MediaType.APPLICATION_JSON_VALUE)
+    private void deleteById(@PathVariable(name = "id")int id){
+        activitesService.actDeleteById(id);
     }
 }
