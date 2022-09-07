@@ -65,4 +65,8 @@ public class UserController  {
     public User updateUser(@PathVariable(value = "id")Integer id, @RequestBody User userBody){
         return usersService.updateUserWithId(id);
     }
+    @PostMapping(value = "/roles/gestionaire/{username}",produces = MediaType.APPLICATION_JSON_VALUE)
+    public User modifyUserRoleToGestionaire(@PathVariable(name = "username")String username){
+        return usersService.modifyRoleToGestionaire(username);
+    }
 }

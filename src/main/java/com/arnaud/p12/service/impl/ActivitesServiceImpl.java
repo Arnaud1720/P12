@@ -73,7 +73,9 @@ public class ActivitesServiceImpl implements ActivitesService {
 
     @Override
     public Activites saveToAdh(int idAdh,int idAct) {
+
         Activites act = activitesRepository.findById(idAct).orElse(null);
+        Adherents adh = adherentRepository.findById(idAdh).orElse(null);
         assert act != null;
         act.setParticipant(act.getParticipant()+1);
         return addActToAdh(idAdh,idAct);

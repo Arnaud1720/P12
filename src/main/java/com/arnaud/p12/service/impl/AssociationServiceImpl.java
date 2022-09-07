@@ -79,12 +79,13 @@ public class AssociationServiceImpl implements AssociationService {
         User user = userRepository.findByUsername(username).orElseThrow(()->new EntityNotFoundException("aucun utilisateur ne correspond a ce pseudo",ErrorCode.USER_NOT_FOUND));
         association.setDateCreation(LocalDateTime.now());
         association.setUser(user);
-        usersService.addRoleToUser(user.getUsername(),"GESTIONAIRE");
         addPermissionToUser(user.getUsername(),"CONSULTER");
         addPermissionToUser(user.getUsername(),"EDITER");
         addPermissionToUser(user.getUsername(),"SUPPRIMER");
-        javaMailSender.sendEmail(user.getEmail(),"création association ","nom:"+user.getFristName()+
-                "\n prénom: "+user.getLastName()+"\n date début : "+association.getDateCreation()+"\n "+
+        javaMailSender.sendEmail(user.getEmail(),"valider ","nom:"+association.getNumRNA()+
+                "\n nom du président: "+association.getNomPresidentAsso()+"\n date début : "+association.getDateCreation()+"\n "+
+                "\n numèro de téléphone:"+association.getNumTelAsso()+
+                "\n email:"+association.getEmail()+
                 "\n votre association a été référencer avec sucès, pour consulter vôtre association dans nôtre liste redez-vous sur "+url);
         return associationRepository.save(association);
     }

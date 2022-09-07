@@ -27,6 +27,8 @@ public class Association implements Serializable {
     @Id
     @NotNull
     private Integer id;
+    @Column(name = "asso_rna",unique = true)
+        private String numRNA;
     @Column(name = "nom_Association")
     private String nom;
     @Column(name = "description_Association",length = 3500)

@@ -36,9 +36,9 @@ public class ActivitesController {
     {
         return activitesService.findAllByAssoId(activites,id);
     }
-    @PostMapping(value = "/save/adh/activite",produces = MediaType.APPLICATION_JSON_VALUE)
-    private Activites saveActAdh(@RequestParam(name = "idAdh")int idAdh,
-                                 @RequestParam(name = "idAct")int idAct){
+    @PostMapping(value = "/save/{idAdh}/{idAct}",produces = MediaType.APPLICATION_JSON_VALUE)
+    private Activites saveActAdh(@PathVariable(name = "idAdh")int idAdh,
+                                 @PathVariable(name = "idAct")int idAct){
         return activitesService.saveToAdh(idAdh, idAct);
     }
 

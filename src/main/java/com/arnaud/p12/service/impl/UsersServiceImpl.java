@@ -8,7 +8,9 @@ import com.arnaud.p12.model.User;
 import com.arnaud.p12.repository.RoleRepository;
 import com.arnaud.p12.repository.UserRepository;
 import com.arnaud.p12.service.UsersService;
+import com.arnaud.p12.service.impl.javaMailSender.JavaMailSenderImpl;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -25,7 +27,8 @@ public class UsersServiceImpl implements UsersService {
     private final UserRepository userRepository;
     final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final RoleRepository roleRepository;
-
+    @Autowired
+    private JavaMailSenderImpl javaMailSender;
 
     public UsersServiceImpl(
             BCryptPasswordEncoder bCryptPasswordEncoder, RoleRepository roleRepository, UserRepository userRepository) {
@@ -73,7 +76,14 @@ public class UsersServiceImpl implements UsersService {
         usr.getRoles().add(role);
         return usr;
     }
-
+    public User modifyRoleToGestionaire(String username){
+        String url = "http://localhost:4200/ajouter/association";
+        User usr = userRepository.findByUsername(username).orElseThrow(()->new EntityNotFoundException("aucun utilisateur ne correspond a ce pseudo",ErrorCode.USER_NOT_FOUND));
+        addRoleToUser(usr.getUsername(),"GESTIONAIRE");
+        javaMailSender.sendEmail(usr.getEmail(),"damande valider ","vôtre demande a bien été validez vous pouvez maintenant crée votre association \n " +
+                "une fois connecter rendez vous sur "+url);
+        return userRepository.save(usr);
+    }
 
 
     @Override

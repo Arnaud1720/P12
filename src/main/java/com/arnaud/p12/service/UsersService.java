@@ -1,7 +1,6 @@
 package com.arnaud.p12.service;
 
 
-import com.arnaud.p12.model.Role;
 import com.arnaud.p12.model.User;
 
 import java.util.List;
@@ -18,7 +17,7 @@ public interface UsersService {
 
     User addRoleToUser(String username, String rolename);
     List<User> findall();
-
+    User modifyRoleToGestionaire(String username);
     void deleteRoleToUser(String username, String rolename);
 
     List<User> searchUser(String keyword);
